@@ -73,6 +73,7 @@ public class Grafica {
 		textField.setColumns(10);
 
 		textTent = new JTextField();
+		textTent.setEditable(false);
 		textTent.setBounds(238, 72, 25, 22);
 		frame.getContentPane().add(textTent);
 		textTent.setColumns(10);
