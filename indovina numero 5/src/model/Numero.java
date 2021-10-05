@@ -13,11 +13,14 @@ public class Numero {
 	public int random;
 	public int tentativi = 5;
 	private Grafica g;
+	private Log log;
 
-	public Numero(int tentativi, Grafica g) {
+	public Numero(int tentativi, Grafica g, Log log) {
 		this.random = (int) (Math.random() * 20);
 		this.tentativi = tentativi;
 		this.g = g;
+		this.log = log;
+		log.writeLog("INIZIO");
 	}
 
 	public int getRandom() {
@@ -36,21 +39,9 @@ public class Numero {
 		this.tentativi = tentativi;
 	}
 
-	public int controllo() throws Exception {
-		FileWriter fw = null;
-
-		try {
-			fw = new FileWriter("Testo.txt");
-			// creazione file
-			SimpleDateFormat formatter = new SimpleDateFormat("hh:mm:ss:");
-			String strDate = formatter.format(new Date());
-
-			fw.write(strDate + "INIZIO");
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		// System.out.println(n.random);
+	public int controllo() {
+		System.out.println(random);
+		tentativi--;
 		String n1 = g.textField.getText();
 		// System.out.println(n1);
 		int n2 = 0;
@@ -63,52 +54,38 @@ public class Numero {
 			if (n2 != random) {
 				if (n2 < random) {
 					JOptionPane.showMessageDialog(null, "IL NUMERO SEGRETO E' PIU' GRANDE, RIPROVA!!");
-					try {
-						SimpleDateFormat formatter = new SimpleDateFormat("hh:mm:ss:");
-
-						String strDate = formatter.format(new Date());
-						fw.write(strDate + "numero troppo grande");
-						fw.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					return -1;
+					log.writeLog("IL NUMERO SEGRETO E' PIU' GRANDE");
 				}
 				if (n2 > random) {
 					JOptionPane.showMessageDialog(null, "IL NUMERO SEGRETO E' PIU' PICCOLO, RIPROVA!!");
-					try {
-						SimpleDateFormat formatter = new SimpleDateFormat("hh:mm:ss:");
-
-						String strDate = formatter.format(new Date());
-						fw.write(strDate + "numero troppo piccolo");
-						fw.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					return 1;
+					log.writeLog("IL NUMERO SEGRETO E' PIU' PICCOLO");
 				}
 				// System.out.println("riprova");
-				int nten = tentativi--;
-				if (nten < 1) {
+				if (tentativi <1) {
 					// System.out.println("hai perso");
 					JOptionPane.showMessageDialog(null, "HAI PERSO");
 
 					g.textTent.setText(String.valueOf(0));
-
+					log.writeLog("HAI PERSO");
 				} else {
 					// System.out.println(nten);
 					// String.valueOf(nten);
-					g.textTent.setText(String.valueOf(nten));
+					g.textTent.setText(String.valueOf(tentativi));
 				}
 			} else {
 				JOptionPane.showMessageDialog(null, "HAI VINTO");
+				log.writeLog("HAI VINTO");
 				// System.out.println("hai vinto");
 			}
-			return 0;
 		} else {
 			JOptionPane.showMessageDialog(null, "SCEGLI UN NUMERO COMPRESO TRA 0 E 20");
-			throw new Exception();
+
 		}
+
+		if (tentativi < 1) {
+			return 0;
+		}
+		return 1;
 	}
 
 	@Override

@@ -18,6 +18,8 @@ public class Grafica {
 	public JButton btnNewButton;
 	public JTextField textField;
 	public JTextField textTent;
+	public JButton btnLog;
+	private JButton btnRiprova;
 
 	/**
 	 * Launch the application.
@@ -77,15 +79,36 @@ public class Grafica {
 		textTent.setBounds(238, 72, 25, 22);
 		frame.getContentPane().add(textTent);
 		textTent.setColumns(10);
+
+		btnLog = new JButton("LOG");
+		btnLog.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnLog.setBounds(42, 187, 97, 25);
+		frame.getContentPane().add(btnLog);
+
+		btnRiprova = new JButton("RIPROVA");
+		btnRiprova.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnRiprova.setBounds(304, 187, 97, 25);
+		frame.getContentPane().add(btnRiprova);
 	}
 
 	public void setVisible(boolean b) {
 		// TODO Auto-generated method stub
 		frame.setVisible(true);
 	}
+	public void restart() {
+		textTent.setText("5");
+	}
 
 	public void registraController(Controller controller) {
 		btnNewButton.addActionListener(controller);
+		btnLog.addActionListener(controller);
+		btnRiprova.addActionListener(controller);
 
 	}
 }
